@@ -3,3 +3,5 @@
 *.fuse*
 *.img
 *.elf
+*.pyc
+
