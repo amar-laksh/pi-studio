@@ -69,7 +69,7 @@ void uart_install()
     PUT32(UART_CR,0x301);
     while(1){
     	uart_putc('a');
-    	delay(0x100000);
+    	delay_c(0x100000);
     	uart_putc('b');
     }
 }
@@ -88,9 +88,9 @@ void mini_uart_install()
 
 	pinMode(14, ALT5);
 	PUT32(GPPUD, 0);
-	delay(150);
+	delay_c(150);
     PUT32(GPPUDCLK0,(1<<14));
-    delay(150);
+    delay_c(150);
     PUT32(GPPUD, 0);
     PUT32(GPPUDCLK0,0);
 

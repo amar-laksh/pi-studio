@@ -7,9 +7,9 @@ void lcd_install()
 	pinMode(17, INPUT);
 	
 	PUT32(GPPUD, 2);
-	delay(150);
+	delay_c(150);
 	PUT32(GPPUDCLK0, (1<<17));
-	delay(150);
+	delay_c(150);
 	PUT32(GPPUD, 0);
 	PUT32(GPPUDCLK0, 0);
 	

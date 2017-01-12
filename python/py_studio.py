@@ -14,8 +14,14 @@ class Main(QtGui.QMainWindow):
         self.changesSaved = True
 
         self.initUI()
+        self.text.setFontPointSize(21)
 
     def initToolbar(self):
+
+        self.compileAction = QtGui.QAction(QtGui.QIcon("icons/compile.png"),"Compile",self)
+        self.compileAction.setStatusTip("Compile")
+        self.compileAction.setShortcut("Ctrl+R")
+        self.compileAction.triggered.connect(self.compile)
 
         self.newAction = QtGui.QAction(QtGui.QIcon("icons/new.png"),"New",self)
         self.newAction.setShortcut("Ctrl+N")
@@ -92,6 +98,9 @@ class Main(QtGui.QMainWindow):
         self.toolbar.addAction(self.undoAction)
         self.toolbar.addAction(self.redoAction)
 
+        self.toolbar.addSeparator()
+
+        self.toolbar.addAction(self.compileAction)
         self.addToolBarBreak()
 
     def initFormatbar(self):
@@ -106,7 +115,7 @@ class Main(QtGui.QMainWindow):
 
         fontSize.valueChanged.connect(lambda size: self.text.setFontPointSize(size))
 
-        fontSize.setValue(14)
+        fontSize.setValue(21)
 
 
         indentAction = QtGui.QAction(QtGui.QIcon("icons/indent.png"),"Indent Area",self)
@@ -137,7 +146,6 @@ class Main(QtGui.QMainWindow):
         view = menubar.addMenu("View")
 
         # Add the most important actions to the menubar
-
         file.addAction(self.newAction)
         file.addAction(self.openAction)
         file.addAction(self.saveAction)
@@ -168,11 +176,12 @@ class Main(QtGui.QMainWindow):
     def initUI(self):
 
         self.text = QtGui.QTextEdit(self)
-
+        mainText = "void setup(){\n\n}\n\nvoid loop(){\n\n}"
+        self.text.setFontPointSize(21)
+        self.text.setText(mainText);
         # Set the tab stop width to around 33 pixels which is
         # more or less 8 spaces
         self.text.setTabStopWidth(33)
-
         self.initToolbar()
         self.initFormatbar()
         self.initMenubar()
@@ -414,16 +423,25 @@ class Main(QtGui.QMainWindow):
         # Set the visibility to its inverse
         self.statusbar.setVisible(not state)
 
+    def compile(self):
+        import os
+        f = open("../kernel/loop.c", "w")
+        include = "#include <kernel/fos.h>"
+        f.write(include+"\n"+self.text.toPlainText())
+        f.close();
+        os.system("cd ../kernel/ && make run")
+
     def new(self):
-
+        mainText = "void setup(){\n\n}\n\nvoid loop(){\n\n}"
         spawn = Main()
-
         spawn.show()
+        self.text.setFontPointSize(21)
+        self.text.setText(mainText)
 
     def open(self):
 
         # Get filename and show only .writer files
-        self.filename = QtGui.QFileDialog.getOpenFileName(self, 'Open File',".","(*.writer)")
+        self.filename = QtGui.QFileDialog.getOpenFileName(self, 'Open File',".","(*.c)")
 
         if self.filename:
             with open(self.filename,"rt") as file:
@@ -436,11 +454,6 @@ class Main(QtGui.QMainWindow):
           self.filename = QtGui.QFileDialog.getSaveFileName(self, 'Save File')
 
         if self.filename:
-            
-            # Append extension if not there yet
-            if not str(self.filename).endswith(".writer"):
-              self.filename += ".writer"
-
             # We just store the contents of the text file along with the
             # format in html, which Qt does in a very nice way for us
             with open(self.filename,"wt") as file:
@@ -578,6 +591,8 @@ class Main(QtGui.QMainWindow):
 
         else:
             self.handleDedent(cursor)
+
+
 
 
 def main():

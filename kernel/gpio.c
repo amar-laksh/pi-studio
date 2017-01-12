@@ -49,11 +49,19 @@ void pinMode(
 		ra|=1<<offset;
 		PUT32(SEL,ra);
 	}
-	else if(state == 0 || state == INPUT){		
+	else if(state == 0 || state == INPUT){
 		ra=GET32(SEL);
 		ra&=~(7<<offset);
 		ra |= (0<<offset);
 		PUT32(SEL,ra);
+		delay_c(150);
+		PUT32(GPPUD, 2);
+		delay_c(150);
+		PUT32(GPPUDCLK0, (1<<gpio_pin));
+		delay_c(150);
+		PUT32(GPPUD, 0);
+		PUT32(GPPUDCLK0, 0);
+
 	}
 	else if(state == 4 || state == ALT0){
 		ra=GET32(SEL);
@@ -313,13 +321,14 @@ void gpio_install(){
 		digitalWrite(35, HIGH);
 		digitalWrite(47, LOW);
 		digitalWrite(24, LOW);
-        delay(0x200000);//for(ra=0;ra<0x100000;ra++) dummy(ra);
+        delay(2);//for(ra=0;ra<0x100000;ra++) dummy(ra);
         digitalWrite(35, LOW);
         digitalWrite(47, HIGH);
        	digitalWrite(24, HIGH);
-        delay(0x200000);//for(ra=0;ra<0x100000;ra++) dummy(ra);
+        delay(2);//for(ra=0;ra<0x100000;ra++) dummy(ra);
 	}
 	digitalWrite(35, LOW);
 	digitalWrite(47, LOW);
 	digitalWrite(24, LOW);
+	return;
 }

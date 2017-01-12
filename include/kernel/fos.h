@@ -11,8 +11,8 @@
 #define ARM_TIMER_CNT 0x2000B420
 
 #define SYSTIMERCLO 0x20003004
-#define OK_LED		35
-#define FAIL_LED	47
+#define OK_LED		47
+#define FAIL_LED	35
 //#define TIMEOUT 20000000
 #define TIMEOUT 2000000
 
@@ -26,11 +26,20 @@ extern void dummy ( unsigned int );
 /* Loop <delay> times in a way that the compiler won't optimize away. */
 static inline void delay(int32_t count)
 {
+	count = count * 1048576;
 	asm volatile("__delay_%=: subs %[count], %[count], #1; bne __delay_%=\n"
 		 : "=r"(count): [count]"0"(count) : "cc");
 }
- 
 
+static inline void delay_c(int32_t count)
+{
+	asm volatile("__delay_%=: subs %[count], %[count], #1; bne __delay_%=\n"
+		 : "=r"(count): [count]"0"(count) : "cc");
+}
+
+
+void setup();
+void loop();
 //------------------------------------------------GPIO.H
 
 
