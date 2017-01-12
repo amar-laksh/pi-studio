@@ -1,0 +1,5 @@
+*.o
+*.iso
+*.fuse*
+*.img
+*.elf
