@@ -208,7 +208,7 @@ void pullUpDownClockWrite	(
 void gpio_install();
 
 //------------------------------------------------UART.H
-
+#define FUARTCLK		0x3000000
 #define AUX_IRQ 		0x20215000
 #define AUX_ENABLES     0x20215004
 #define AUX_MU_IO_REG   0x20215040
@@ -242,6 +242,16 @@ void gpio_install();
 #define UART_ITIP		0x20201084
 #define UART_ITOP		0x20201088
 #define UART_TDR		0x2020108C
+
+typedef struct serial_t serial_t, *ptr;
+
+
+struct serial_t {
+	ptr (*println)(const char* fmt, ...);
+	ptr (*begin)(int);
+};
+
+serial_t Serial;
 
 void mini_uart_puts (
                     char* s
@@ -306,6 +316,13 @@ void * memmove  (
 				, size_t count
 				);
 
+//------------------------------------------------PRINT.H
+
+size_t vasprintf(
+				char * buf
+				, const char *fmt
+				, va_list args
+				);
 
 
 

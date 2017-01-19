@@ -3,7 +3,6 @@
 
 int kmain (uint32_t r0, uint32_t r1, uint32_t atags)
 {
-	mini_uart_install();
 	gpio_install();
 	setup();
 	while(1){

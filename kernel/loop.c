@@ -1,8 +1,8 @@
 #include <kernel/fos.h>
 void setup(){
-
+	Serial.begin(115200);
 }
 
 void loop(){
-	mini_uart_puts("Hello World from the pi via the pi-studio!\n");
+	Serial.println("Hello World");
 }
