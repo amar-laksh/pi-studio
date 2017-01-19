@@ -325,5 +325,18 @@ size_t vasprintf(
 				);
 
 
+//------------------------------------------------TIMER.H
+
+#define TIMER_BASE		0x20003000
+#define TIMER_CS		0x20003000
+#define TIMER_CLO		0x20003004
+#define TIMER_CHI		0x20003008
+#define TIMER_C0		0x2000300C
+#define TIMER_C1		0x20003010
+#define TIMER_C2		0x20003014
+#define TIMER_C3		0x20003018
+
+int32_t millis();
+
 
 #endif
