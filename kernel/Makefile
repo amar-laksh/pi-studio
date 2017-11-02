@@ -22,7 +22,7 @@ CFLAGS = -I../include -mcpu=arm1176jzf-s -fpic  -std=gnu99 -ffreestanding -O2 -W
 #AS =  /root/ARM-CROSS/bin/arm-eabi-as
 AS = arm-none-eabi-as
 LDFLAGS = -T linker.ld -o fos.elf -ffreestanding -O2 -nostdlib 
-OBJCOPY = /root/ARM-CROSS/bin/arm-eabi-objcopy
+OBJCOPY = arm-none-eabi-objcopy
 
 clean:
 	rm -rf *. ../drivers/*.o ../mm/*.o ../sys/*.o ../stdlib/*.o ../include/*.o *.o ./*.iso ./*.elf

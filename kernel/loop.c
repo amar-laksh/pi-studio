@@ -1,10 +1,14 @@
 #include <kernel/fos.h>
 void setup(){
-	Serial.begin(115200);
-	int init_v = millis();
+	pinMode(OK_LED, OUTPUT);
+	pinMode(FAIL_LED, OUTPUT);
 }
 
 void loop(){
-	int fin_v = millis();
-	Serial.println("Time Elapsed:%d",fin_v);
+	digitalWrite(OK_LED, HIGH);
+	digitalWrite(FAIL_LED, LOW);
+	delay(0x100000);
+	digitalWrite(OK_LED, LOW);
+	digitalWrite(FAIL_LED, HIGH);
+	delay(0x100000);
 }
